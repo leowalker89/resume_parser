@@ -1,4 +1,9 @@
 streamlit
 python-dotenv
-anthropic
+pydantic
+PyPDF2
+
 openai
+anthropic
+langchain
+langchain-community
