@@ -10,6 +10,7 @@ from resume_template import Resume
 from json import JSONDecodeError
 import PyPDF2
 import json
+import time
 
 load_dotenv()
 
@@ -100,11 +101,27 @@ uploaded_file = st.file_uploader("Upload a PDF file", type="pdf")
 if uploaded_file is not None:
     # Add a button to trigger the conversion
     if st.button("Convert PDF to Text"):
+        start_time = time.time()  # Start the timer
+        
         # Convert the uploaded file to a string
         text = pdf_to_string(uploaded_file)
         
         # Extract resume fields using the selected model
         extracted_fields = extract_resume_fields(text, selected_model)
         
-        # Display the extracted fields on the Streamlit app
-        st.json(extracted_fields)
+        end_time = time.time()  # Stop the timer
+        elapsed_time = end_time - start_time  # Calculate the elapsed time
+        
+        # Display the elapsed time
+        st.write(f"Extraction completed in {elapsed_time:.2f} seconds")
+
+        # # Display the extracted fields on the Streamlit app
+        # st.json(extracted_fields)
+        
+        # If extracted_fields is a JSON string, convert it to a dictionary
+        if isinstance(extracted_fields, str):
+            extracted_fields = json.loads(extracted_fields)
+
+        for key, value in extracted_fields.items():
+            st.write(f"{key}: {value}")
+        

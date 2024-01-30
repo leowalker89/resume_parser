@@ -7,3 +7,4 @@ openai
 anthropic
 langchain
 langchain-community
+langchain_openai
