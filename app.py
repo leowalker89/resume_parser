@@ -84,10 +84,10 @@ st.title("Resume Parser")
 
 # Set up the LLM dictionary
 llm_dict = {
-    "gpt-4-1106-preview": ChatOpenAI(temperature=0, model="gpt-4-1106-preview"),
-    "gpt-4": ChatOpenAI(temperature=0, model="gpt-4"),
+    # "gpt-4-1106-preview": ChatOpenAI(temperature=0, model="gpt-4-1106-preview"),
+    # "gpt-4": ChatOpenAI(temperature=0, model="gpt-4"),
     "gpt-3.5-turbo-1106": ChatOpenAI(temperature=0, model="gpt-3.5-turbo-1106"),
-    "claude-2": ChatAnthropic(model="claude-2", max_tokens=20_000),
+    # "claude-2": ChatAnthropic(model="claude-2", max_tokens=20_000),
     "claude-instant-1": ChatAnthropic(model="claude-instant-1", max_tokens=20_000)
 }
 
