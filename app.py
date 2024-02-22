@@ -10,7 +10,10 @@ from resume_template import Resume
 from json import JSONDecodeError
 import PyPDF2
 import json
+<<<<<<< HEAD
 import time
+=======
+>>>>>>> 726975d5ca7f0a98a5047fbda8870a0f03f55283
 
 load_dotenv()
 
@@ -84,10 +87,17 @@ st.title("Resume Parser")
 
 # Set up the LLM dictionary
 llm_dict = {
+<<<<<<< HEAD
     # "gpt-4-1106-preview": ChatOpenAI(temperature=0, model="gpt-4-1106-preview"),
     # "gpt-4": ChatOpenAI(temperature=0, model="gpt-4"),
     "gpt-3.5-turbo-1106": ChatOpenAI(temperature=0, model="gpt-3.5-turbo-1106"),
     # "claude-2": ChatAnthropic(model="claude-2", max_tokens=20_000),
+=======
+    "gpt-4-1106-preview": ChatOpenAI(temperature=0, model="gpt-4-1106-preview"),
+    "gpt-4": ChatOpenAI(temperature=0, model="gpt-4"),
+    "gpt-3.5-turbo-1106": ChatOpenAI(temperature=0, model="gpt-3.5-turbo-1106"),
+    "claude-2": ChatAnthropic(model="claude-2", max_tokens=20_000),
+>>>>>>> 726975d5ca7f0a98a5047fbda8870a0f03f55283
     "claude-instant-1": ChatAnthropic(model="claude-instant-1", max_tokens=20_000)
 }
 
@@ -101,14 +111,18 @@ uploaded_file = st.file_uploader("Upload a PDF file", type="pdf")
 if uploaded_file is not None:
     # Add a button to trigger the conversion
     if st.button("Convert PDF to Text"):
+<<<<<<< HEAD
         start_time = time.time()  # Start the timer
         
+=======
+>>>>>>> 726975d5ca7f0a98a5047fbda8870a0f03f55283
         # Convert the uploaded file to a string
         text = pdf_to_string(uploaded_file)
         
         # Extract resume fields using the selected model
         extracted_fields = extract_resume_fields(text, selected_model)
         
+<<<<<<< HEAD
         end_time = time.time()  # Stop the timer
         elapsed_time = end_time - start_time  # Calculate the elapsed time
         
@@ -125,3 +139,7 @@ if uploaded_file is not None:
         for key, value in extracted_fields.items():
             st.write(f"{key}: {value}")
         
+=======
+        # Display the extracted fields on the Streamlit app
+        st.json(extracted_fields)
+>>>>>>> 726975d5ca7f0a98a5047fbda8870a0f03f55283
