@@ -10,10 +10,7 @@ from resume_template import Resume
 from json import JSONDecodeError
 import PyPDF2
 import json
-<<<<<<< HEAD
 import time
-=======
->>>>>>> 726975d5ca7f0a98a5047fbda8870a0f03f55283
 
 load_dotenv()
 
