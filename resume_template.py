@@ -1,5 +1,5 @@
-from pydantic import BaseModel, Field, ValidationError
 from typing import List, Optional, Dict
+from langchain_core.pydantic_v1 import BaseModel, Field
 
 # The following classes are for the resume template
 
@@ -9,8 +9,8 @@ class ContactInfo(BaseModel):
     linkedin: Optional[str] = None
 
 class PersonalDetails(BaseModel):
-    full_name: str
-    contact_info: ContactInfo
+    full_name: str = None
+    contact_info: ContactInfo 
     professional_summary: Optional[str] = None
 
 class Education(BaseModel):
