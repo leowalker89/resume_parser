@@ -62,16 +62,26 @@ def extract_resume_fields(full_text, model):
         input_variables=["resume"],
         partial_variables={"response_template": parser.get_format_instructions()},
     )
-    # Invoke the language model and process the resume
-    # formatted_input = prompt_template.format_prompt(resume=full_text)
     llm = llm_dict.get(model, ChatOpenAI(temperature=0, model=model))
-    # print("llm", llm)
-    # output = llm.invoke(formatted_input.to_string())
+
     chain = prompt_template | llm | parser
-    output = chain.invoke(full_text)
-    # print(output)  # Print the output object for debugging
-    print(output)
-    return output
+    max_attempts = 2
+    attempt = 1
+
+    while attempt <= max_attempts:
+        try:
+            output = chain.invoke(full_text)
+            print(output)
+            return output
+        except ValidationError as e:
+            if attempt == max_attempts:
+                raise e
+            else:
+                print(f"Validation error occurred. Retrying (attempt {attempt + 1}/{max_attempts})...")
+                attempt += 1
+
+    return None
+
     # try:
     #     parsed_output = parser.parse(output.content)
     #     json_output = parsed_output.json()
@@ -91,26 +101,28 @@ def extract_resume_fields(full_text, model):
 def display_extracted_fields(obj, section_title=None, indent=0):
     if section_title:
         st.subheader(section_title)
-
     for field_name, field_value in obj:
-        if isinstance(field_value, BaseModel):
-            display_extracted_fields(field_value, field_name, indent + 1)
-        elif isinstance(field_value, list):
-            st.write(" " * indent + field_name + ":")
-            for item in field_value:
-                if isinstance(item, BaseModel):
-                    display_extracted_fields(item, None, indent + 1)
-                else:
-                    st.write(" " * (indent + 1) + "- " + str(item))
+        if field_name in ["personal_details", "education", "work_experience", "projects", "skills", "certifications", "publications", "awards", "additional_sections"]:
+            st.write(" " * indent + f"**{field_name.replace('_', ' ').title()}**:")
+            if isinstance(field_value, BaseModel):
+                display_extracted_fields(field_value, None, indent + 1)
+            elif isinstance(field_value, list):
+                for item in field_value:
+                    if isinstance(item, BaseModel):
+                        display_extracted_fields(item, None, indent + 1)
+                    else:
+                        st.write(" " * (indent + 1) + "- " + str(item))
+            else:
+                st.write(" " * (indent + 1) + str(field_value))
         else:
-            st.write(" " * indent + field_name + ": " + str(field_value))
+            st.write(" " * indent + f"{field_name.replace('_', ' ').title()}: " + str(field_value))
 
 
 st.title("Resume Parser")
 
 llm_dict = {
-    "gpt-3.5-turbo": ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo"),
-    "sonnet": ChatAnthropic(model_name="claude-3-sonnet-20240229"),
+    "GPT 3.5 turbo": ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo"),
+    "Anthropic Sonnet": ChatAnthropic(model_name="claude-3-sonnet-20240229"),
 }
 
 selected_model = st.selectbox("Select a model", list(llm_dict.keys()))

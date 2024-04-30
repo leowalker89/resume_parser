@@ -32,10 +32,10 @@ class Project(BaseModel):
     technologies: Optional[str] = None
     role: Optional[str] = None
 
-class Certification(BaseModel):
-    title: Optional[str] = None
-    certifying_body: Optional[str] = None
-    date: Optional[str] = None
+# class Certification(BaseModel):
+#     title: Optional[str] = None
+#     certifying_body: Optional[str] = None
+#     date: Optional[str] = None
 
 class Publication(BaseModel):
     title: Optional[str] = None
@@ -64,7 +64,7 @@ class Resume(BaseModel):
     work_experience: List[WorkExperience] = []
     projects: List[Project] = []
     skills: List[str] = []
-    certifications: List[Certification] = []
+    certifications: List[str] = []
     publications: List[Publication] = []
     awards: List[Award] = []
     additional_sections: Optional[AdditionalSections] = None
