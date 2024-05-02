@@ -75,7 +75,7 @@ def extract_resume_fields(full_text, model):
     llm = llm_dict.get(model, ChatOpenAI(temperature=0, model=model))
 
     chain = prompt_template | llm | parser
-    max_attempts = 2
+    max_attempts = 3
     attempt = 1
 
     while attempt <= max_attempts:
@@ -159,7 +159,7 @@ if uploaded_file is not None:
             end_time = time.time()
             elapsed_time = end_time - start_time
             st.write(f"Extraction completed in {elapsed_time:.2f} seconds")
-            display_extracted_fields(extracted_fields1, "Extracted Resume Fields (Model 1)")
+            display_extracted_fields(extracted_fields1, f"{selected_model1} Extracted Fields ")
 
         with col2:
             start_time = time.time()
@@ -167,4 +167,4 @@ if uploaded_file is not None:
             end_time = time.time()
             elapsed_time = end_time - start_time
             st.write(f"Extraction completed in {elapsed_time:.2f} seconds")
-            display_extracted_fields(extracted_fields2, "Extracted Resume Fields (Model 2)")
+            display_extracted_fields(extracted_fields2, f"{selected_model2} Extracted Fields ")

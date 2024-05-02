@@ -1,0 +1,96 @@
+{
+    "personal_details": {
+        "full_name": "Leo Walker",
+        "contact_info": {
+            "email": "leowalker89@gmail.com",
+            "phone": "(571) 294-9678",
+            "linkedin": "linkedin.com/in/leowalker"
+        },
+        "professional_summary": "Data Scientist with expertise in Python, SQL, Data Visualization, Machine Learning, NLP, LLMs, LangChain, and LlamaIndex."
+    },
+    "education": [
+        {
+            "institution": "University of Denver",
+            "degree": "MS",
+            "field_of_study": "Data Science",
+            "graduation_date": "November 2023"
+        },
+        {
+            "institution": "Ranger School - the Army\u2019s Premier Leadership School",
+            "degree": null,
+            "field_of_study": null,
+            "graduation_date": "April 2012"
+        },
+        {
+            "institution": "Virginia Military Institute",
+            "degree": "BS",
+            "field_of_study": "Electrical and Computer Engineering",
+            "graduation_date": "May 2011"
+        }
+    ],
+    "work_experience": [
+        {
+            "company": "IVP",
+            "title": "Data Scientist",
+            "duration": "August 2022 - September 2023",
+            "description": "",
+            "notable_contributions": [
+                "Orchestrated comprehensive performance analysis using SQL and Python to pinpoint promising investment opportunities guided by historical investment success metrics.",
+                "Improved investor engagement with 60% faster email crafting using optimized LLM pipelines.",
+                "Increased accuracy and transparency of peer comparisons by implementing a refined distribution algorithm in company performance assessments."
+            ]
+        },
+        {
+            "company": "BP",
+            "title": "Data Scientist",
+            "duration": "February 2018 - August 2022",
+            "description": "",
+            "notable_contributions": [
+                "Developed an automated GreenHouse Gas report that reduced lead time by two weeks and saved 300 man-hours annually while increasing KPI transparency across leadership levels.",
+                "Established strategic partnerships with stakeholders at all levels to enhance safety awareness through an NLP tool, leading to a 15% decrease in safety events.",
+                "Developed an IT-wide portfolio tracker that integrated directly into MS DevOps to provide a single point where leaders across the organization can track project progress."
+            ]
+        },
+        {
+            "company": "US Army, Special Operations Command",
+            "title": "Distribution Platoon Leader",
+            "duration": "May 2014 - April 2017",
+            "description": "Led a cross-functional team of 28 and controlled an annual budget of $111MM.",
+            "notable_contributions": [
+                "Managed development of 1st mobile performance appraisal app, decreasing delivery time by 80%."
+            ]
+        },
+        {
+            "company": null,
+            "title": "Data Analyst",
+            "duration": "April 2017 - February 2018",
+            "description": "Led development project leveraging localized drilling data to provide focused drilling directives, potentially saving $300K per well with projected productivity gains valued at $43.2MM in 2019.",
+            "notable_contributions": [
+                "Developed a KPI dashboard to increase safety incident awareness across the company, resulting in robust data collection and strategy sessions to distribute lessons learned and reduce incidents."
+            ]
+        }
+    ],
+    "projects": [],
+    "skills": [
+        "Python",
+        "SQL",
+        "Data Visualization",
+        "Machine Learning",
+        "NLP",
+        "LLMs",
+        "LangChain",
+        "PyTorch"
+    ],
+    "certifications": [
+        "Certified ScrumMaster",
+        "PMI Agile Certified Practitioner (PMP-ACP)",
+        "Project Management Professional (PMP)"
+    ],
+    "publications": [],
+    "awards": [],
+    "additional_sections": {
+        "volunteer_experience": [],
+        "languages": [],
+        "interests": []
+    }
+}
