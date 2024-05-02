@@ -1,4 +1,13 @@
 ---
+title: ResumeParser
+emoji: 🔥
+colorFrom: green
+colorTo: blue
+sdk: streamlit
+sdk_version: 1.29.0
+app_file: app.py
+pinned: false
+---
 # Resume Parser
 
 This Streamlit app allows you to compare the capabilities of different language models (LLMs) in parsing resumes into structured Pydantic objects. It provides insights into the accuracy, inference time, and cost of using various LLMs for resume parsing.
@@ -62,5 +71,3 @@ The app supports multiple LLMs, which can be configured in the `llm_dict` dictio
 
 Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
 
----
-Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
