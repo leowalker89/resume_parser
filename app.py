@@ -48,6 +48,8 @@ def pdf_to_string(file):
     file.close()
     return text
 
+class CustomOutputParserException(Exception):
+    pass
 
 def extract_resume_fields(full_text, model):
     """
@@ -81,7 +83,7 @@ def extract_resume_fields(full_text, model):
             output = chain.invoke(full_text)
             print(output)
             return output
-        except (OutputParserException, ValidationError) as e:
+        except (CustomOutputParserException, ValidationError) as e:
             if attempt == max_attempts:
                 raise e
             else:
@@ -127,8 +129,9 @@ st.title("Resume Parser")
 llm_dict = {
     "GPT 3.5 turbo": ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo"),
     "Anthropic Sonnet": ChatAnthropic(model_name="claude-3-sonnet-20240229"),
-    "Llama 3": ChatGroq(model_name="llama3-70b-8192"),
-    "Gemma": ChatGroq(model_name="gemma-7b-it"),
+    "Llama 3 8b": ChatGroq(model_name="llama3-8b-8192"),
+    "Llama 3 70b": ChatGroq(model_name="llama3-70b-8192"),
+    "Gemma 7b": ChatGroq(model_name="gemma-7b-it"),
     "Mistral": ChatGroq(model_name="mixtral-8x7b-32768"),
     # "Gemini 1.5 Pro": ChatGoogleGenerativeAI(model_name="gemini-1.5-pro-latest"),
 }
@@ -139,7 +142,7 @@ uploaded_file = st.file_uploader("Upload a PDF file", type="pdf")
 col1, col2 = st.columns(2)
 
 with col1:
-    selected_model1 = st.selectbox("Select Model 1", list(llm_dict.keys()), index=list(llm_dict.keys()).index("Llama 3"))
+    selected_model1 = st.selectbox("Select Model 1", list(llm_dict.keys()), index=list(llm_dict.keys()).index("Llama 3 70b"))
 
 with col2:
     selected_model2 = st.selectbox("Select Model 2", list(llm_dict.keys()), index=list(llm_dict.keys()).index("Mistral"))
