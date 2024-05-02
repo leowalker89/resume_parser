@@ -132,11 +132,9 @@ llm_dict = {
     "Llama 3 8b": ChatGroq(model_name="llama3-8b-8192"),
     "Llama 3 70b": ChatGroq(model_name="llama3-70b-8192"),
     "Gemma 7b": ChatGroq(model_name="gemma-7b-it"),
-    "Mistral": ChatGroq(model_name="mixtral-8x7b-32768"),
+    "Mixtral 8x7b": ChatGroq(model_name="mixtral-8x7b-32768"),
     # "Gemini 1.5 Pro": ChatGoogleGenerativeAI(model_name="gemini-1.5-pro-latest"),
 }
-
-
 
 uploaded_file = st.file_uploader("Upload a PDF file", type="pdf")
 col1, col2 = st.columns(2)
