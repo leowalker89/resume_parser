@@ -1,10 +1,16 @@
 from dotenv import load_dotenv
 import io
 import streamlit as st
+import streamlit.components.v1 as components
+import base64
+
 from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain_anthropic import ChatAnthropic
 from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.exceptions import OutputParserException
 from pydantic import ValidationError
 from langchain_core.pydantic_v1 import BaseModel, Field
 from resume_template import Resume
@@ -13,6 +19,8 @@ import PyPDF2
 import json
 import time
 import os
+
+
 # Set the LANGCHAIN_TRACING_V2 environment variable to 'true'
 os.environ['LANGCHAIN_TRACING_V2'] = 'true'
 
@@ -73,30 +81,14 @@ def extract_resume_fields(full_text, model):
             output = chain.invoke(full_text)
             print(output)
             return output
-        except ValidationError as e:
+        except (OutputParserException, ValidationError) as e:
             if attempt == max_attempts:
                 raise e
             else:
-                print(f"Validation error occurred. Retrying (attempt {attempt + 1}/{max_attempts})...")
+                print(f"Parsing error occurred. Retrying (attempt {attempt + 1}/{max_attempts})...")
                 attempt += 1
 
     return None
-
-    # try:
-    #     parsed_output = parser.parse(output.content)
-    #     json_output = parsed_output.json()
-    #     print(json_output)
-    #     return json_output
-    
-    # except ValidationError as e:
-    #     print(f"Validation error: {e}")
-    #     print(output)
-    #     return output.content
-    
-    # except JSONDecodeError as e:
-    #     print(f"JSONDecodeError error: {e}")
-    #     print(output)
-    #     return output.content
 
 def display_extracted_fields(obj, section_title=None, indent=0):
     if section_title:
@@ -117,33 +109,59 @@ def display_extracted_fields(obj, section_title=None, indent=0):
         else:
             st.write(" " * indent + f"{field_name.replace('_', ' ').title()}: " + str(field_value))
 
+def get_json_download_link(json_str, download_name):
+    # Convert the JSON string back to a dictionary
+    data = json.loads(json_str)
+    
+    # Convert the dictionary back to a JSON string with 4 spaces indentation
+    json_str_formatted = json.dumps(data, indent=4)
+    
+    b64 = base64.b64encode(json_str_formatted.encode()).decode()
+    href = f'<a href="data:file/json;base64,{b64}" download="{download_name}.json">Click here to download the JSON file</a>'
+    return href
+
+st.set_page_config(layout="wide")
 
 st.title("Resume Parser")
 
 llm_dict = {
     "GPT 3.5 turbo": ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo"),
     "Anthropic Sonnet": ChatAnthropic(model_name="claude-3-sonnet-20240229"),
+    "Llama 3": ChatGroq(model_name="llama3-70b-8192"),
+    "Gemma": ChatGroq(model_name="gemma-7b-it"),
+    "Mistral": ChatGroq(model_name="mixtral-8x7b-32768"),
+    # "Gemini 1.5 Pro": ChatGoogleGenerativeAI(model_name="gemini-1.5-pro-latest"),
 }
 
-selected_model = st.selectbox("Select a model", list(llm_dict.keys()))
+
 
 uploaded_file = st.file_uploader("Upload a PDF file", type="pdf")
+col1, col2 = st.columns(2)
+
+with col1:
+    selected_model1 = st.selectbox("Select Model 1", list(llm_dict.keys()), index=list(llm_dict.keys()).index("Llama 3"))
+
+with col2:
+    selected_model2 = st.selectbox("Select Model 2", list(llm_dict.keys()), index=list(llm_dict.keys()).index("Mistral"))
 
 if uploaded_file is not None:
-    if st.button("Convert PDF to Text"):
-        start_time = time.time()
-        
-        text = pdf_to_string(uploaded_file)
-        
-        extracted_fields = extract_resume_fields(text, selected_model)
-        
-        end_time = time.time()
-        elapsed_time = end_time - start_time
-        
-        st.write(f"Extraction completed in {elapsed_time:.2f} seconds")
-        
-        display_extracted_fields(extracted_fields, "Extracted Resume Fields")
+    text = pdf_to_string(uploaded_file)
 
-        # for key, value in extracted_fields.items():
-        #     st.write(f"{key}: {value}")
-        
+    if st.button("Extract Resume Fields"):
+        col1, col2 = st.columns(2)
+
+        with col1:
+            start_time = time.time()
+            extracted_fields1 = extract_resume_fields(text, selected_model1)
+            end_time = time.time()
+            elapsed_time = end_time - start_time
+            st.write(f"Extraction completed in {elapsed_time:.2f} seconds")
+            display_extracted_fields(extracted_fields1, "Extracted Resume Fields (Model 1)")
+
+        with col2:
+            start_time = time.time()
+            extracted_fields2 = extract_resume_fields(text, selected_model2)
+            end_time = time.time()
+            elapsed_time = end_time - start_time
+            st.write(f"Extraction completed in {elapsed_time:.2f} seconds")
+            display_extracted_fields(extracted_fields2, "Extracted Resume Fields (Model 2)")
