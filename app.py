@@ -143,7 +143,7 @@ with col1:
     selected_model1 = st.selectbox("Select Model 1", list(llm_dict.keys()), index=list(llm_dict.keys()).index("Llama 3 70b"))
 
 with col2:
-    selected_model2 = st.selectbox("Select Model 2", list(llm_dict.keys()), index=list(llm_dict.keys()).index("Mistral"))
+    selected_model2 = st.selectbox("Select Model 2", list(llm_dict.keys()), index=list(llm_dict.keys()).index("Mixtral 8x7b"))
 
 if uploaded_file is not None:
     text = pdf_to_string(uploaded_file)
