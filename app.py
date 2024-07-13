@@ -1,22 +1,23 @@
 from dotenv import load_dotenv
-import io
+# import io
 import streamlit as st
-import streamlit.components.v1 as components
-import base64
+# import streamlit.components.v1 as components
+# import base64
 
-from langchain.prompts import PromptTemplate
-from langchain_core.output_parsers import PydanticOutputParser
+# from langchain.prompts import PromptTemplate
+# from langchain_core.output_parsers import PydanticOutputParser
 from langchain_anthropic import ChatAnthropic
 from langchain_openai import ChatOpenAI
 from langchain_groq import ChatGroq
+# from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_core.exceptions import OutputParserException
-from pydantic import ValidationError
-from langchain_core.pydantic_v1 import BaseModel, Field
-from resume_template import Resume
-from json import JSONDecodeError
-import PyPDF2
-import json
+# from langchain_core.exceptions import OutputParserException
+# from pydantic import ValidationError
+# from langchain_core.pydantic_v1 import BaseModel, Field
+# from resume_template import Resume
+# from json import JSONDecodeError
+# import PyPDF2
+# import json
 import time
 import os
 
@@ -30,7 +31,6 @@ os.environ['LANGCHAIN_TRACING_V2'] = 'true'
 os.environ['LANGCHAIN_PROJECT'] = 'Resume_Project'
 
 load_dotenv()
-
 
 st.set_page_config(layout="wide")
 
@@ -52,13 +52,15 @@ with col2:
     """)
 
 llm_dict = {
-    "GPT 3.5 turbo": ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo"),
-    "Anthropic Sonnet": ChatAnthropic(model_name="claude-3-sonnet-20240229"),
+    "GPT 3.5 turbo": ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo-0125"),
+    "GPT 4o": ChatOpenAI(temperature=0, model_name="gpt-4o"),
+    "Anthropic 3.5 Sonnet": ChatAnthropic(model="claude-3-5-sonnet-20240620"),
     "Llama 3 8b": ChatGroq(model_name="llama3-8b-8192"),
     "Llama 3 70b": ChatGroq(model_name="llama3-70b-8192"),
     "Gemma 7b": ChatGroq(model_name="gemma-7b-it"),
     "Mixtral 8x7b": ChatGroq(model_name="mixtral-8x7b-32768"),
-    # "Gemini 1.5 Pro": ChatGoogleGenerativeAI(model_name="gemini-1.5-pro-latest"),
+    "Gemini 1.5 Pro": ChatGoogleGenerativeAI(model="gemini-1.5-pro"),
+    "Gemini 1.5 Flash": ChatGoogleGenerativeAI(model="gemini-1.5-flash"),
 }
 
 uploaded_file = st.file_uploader("Upload a PDF file", type="pdf")

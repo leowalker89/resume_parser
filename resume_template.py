@@ -32,11 +32,6 @@ class Project(BaseModel):
     technologies: Optional[str] = None
     role: Optional[str] = None
 
-# class Certification(BaseModel):
-#     title: Optional[str] = None
-#     certifying_body: Optional[str] = None
-#     date: Optional[str] = None
-
 class Publication(BaseModel):
     title: Optional[str] = None
     co_authors: List[str] = []
